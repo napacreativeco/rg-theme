@@ -89,15 +89,15 @@ a.no-click { cursor: default; }
     font-display: swap;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, th {
     font-family: 'Atlas';
     font-weight: 600;
 }
-p, span, bdi, input, button, nav, select, form {
+p, span, bdi, input, button, nav, select, form, small, li, .woocommerce-message, .woocommerce-info, td {
     font-family: 'Atlas';
     font-weight: normal;
 }
-p.small {
+small {
     font-size: 0.7rem;
 }
 a {
@@ -110,6 +110,9 @@ em {
     font-style: italic;
 }
 mark { background: transparent; }
+table {
+    border-collapse: collapse;
+}
 
 
 /* Mobile Nav */
@@ -248,10 +251,7 @@ mark { background: transparent; }
 }
 
 
-
-/* ======================================================================================= */
-/* ===========================MEDIA QUERIES=============================================== */
-/* ======================================================================================= */
+/* ===========================MEDIA QUERIES======================= */
 @media (max-width: 575.98px) {
 
 }

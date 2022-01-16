@@ -42,6 +42,21 @@
         return false;
     });
 
+    
+    // Single Product Lightbox
+    $('.wp-post-image').click(function(e) {
+        e.preventDefault();
+        var data = $(this).attr('src');
+
+        $('.lightbox').fadeIn(700);
+        console.log(data);
+
+    });
+
+    $('.lightbox-close').click(function(e) {
+        e.preventDefault();
+        $('.lightbox').fadeOut(fast);
+    });
 
 })( jQuery );
 

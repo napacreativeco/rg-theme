@@ -48,13 +48,49 @@ add_action( 'after_setup_theme', 'rebelgrown_setup' );
 /* Customizer Imports */
 function rebelgrown_customize_register( $wp_customize ) {
 
-    /* Example Customizer */
-    include get_template_directory() . '/customizer/example-customizer.php';
-
-    /* Dual Square Links */
-    include get_template_directory() . '/customizer/dual-square-customizer.php';
+    /* Culture */
+    include get_template_directory() . '/customizer/culture-customizer.php';
 }
 add_action( 'customize_register', 'rebelgrown_customize_register' );
+
+
+/*Custom Post type start*/
+function rg_post_type_genetics() {
+    $supports = array(
+        'title',
+        'editor',
+        'thumbnail',
+        'excerpt',
+        'custom-fields',
+    );
+    $labels = array(
+        'name' => _x('Genetics', 'plural'),
+        'singular_name' => _x('Genetic', 'singular'),
+        'menu_name' => _x('Genetics', 'admin menu'),
+        'name_admin_bar' => _x('Genetics', 'admin bar'),
+        'add_new' => _x('Add New', 'add new'),
+        'add_new_item' => __('Add New Genetic'),
+        'new_item' => __('New'),
+        'edit_item' => __('Edit'),
+        'view_item' => __('View'),
+        'all_items' => __('All'),
+        'search_items' => __('Search'),
+        'not_found' => __('None found.'),
+    );
+    $args = array(
+        'supports' => $supports,
+        'labels' => $labels,
+        'public' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'genetics'),
+        'has_archive' => true,
+        'hierarchical' => false,
+        'publicly_queryable' => true
+    );
+    register_post_type('genetics', $args);
+}
+add_action('init', 'rg_post_type_genetics');
+/*Custom Post type end*/
 
 
 /* Trim zeros in price decimals */
@@ -62,7 +98,6 @@ add_filter( 'woocommerce_price_trim_zeros', '__return_true' );
 
 /* Remove Sidebar on Single Products */
 add_action( 'wp', 'remove_sidebar_product_pages' );
- 
 function remove_sidebar_product_pages() {
     if ( is_product() ) {
         remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
@@ -83,10 +118,14 @@ remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_p
  *
  * @param object $query The main WordPress query.
  */
-function tg_include_custom_post_types_in_search_results( $query ) {
-    if ( $query->is_main_query() && $query->is_search() && ! is_admin() ) {
-        $query->set( 'post_type', array( 'post', 'movies', 'products', 'portfolio' ) );
-    }
-}
-add_action( 'pre_get_posts', 'tg_include_custom_post_types_in_search_results' );
+// function tg_include_custom_post_types_in_search_results( $query ) {
+//     if ( $query->is_main_query() && $query->is_search() && ! is_admin() ) {
+//         $query->set( 'post_type', array( 'post', 'products', 'genetics' ) );
+//     }
+// }
+// add_action( 'pre_get_posts', 'tg_include_custom_post_types_in_search_results' );
+
+
+// search all taxonomies, based on: http://projects.jesseheap.com/all-projects/wordpress-plugin-tag-search-in-wordpress-23
+
 

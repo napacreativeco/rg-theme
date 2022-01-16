@@ -153,13 +153,19 @@ get_header(); ?>
     .stickers h2 {
         text-transform: uppercase;
     }
+    .stickers a.button {
+        background: var(--black);
+        color: var(--white);
+        padding: 10px 20px;
+        text-transform: uppercase;
+    }
 
     /* Products */
     .home-products--container {
         padding: 10px 40px;
     }
     .home-products--container .row {
-        padding: 100px 10px;
+        padding: 10px;
     }
     .home-products--container p {
         color: #fff;
@@ -167,6 +173,11 @@ get_header(); ?>
         width: 100%;
         height: 100%;
         text-transform: uppercase;
+    }
+    .home-products--container a.button {
+        color: var(--black);
+        text-transform: uppercase;
+        text-decoration: none;
     }
 </style>
 
@@ -267,7 +278,7 @@ get_header(); ?>
         <div class="row">
             <h2>Try the Stickers</h2>
             <p>We are offering exclusive Rebel Grown stickers. Each sticker comes with a gift of a free pack of seeds.</p>
-            <button>shop now</button>
+            <a class="button" title="Shop now" href="<?php echo get_permalink( wc_get_page_id( 'shop' ) ) .'/category/stickers/'; ?>">Shop now</a>
         </div>
         <div class="table">
             <div style="text-align: left">
@@ -283,9 +294,17 @@ get_header(); ?>
     </section>
 
     <section class="home-products--container black-background">
-        <div><p>Recent Products</p></div>
+        <div>
+            <p>Recent Products</p>
+        </div>
+
         <?php get_template_part('template-parts/home--products'); ?>
-        <div><a class="button" href="<?php echo get_permalink( wc_get_page_id( 'shop' ) ) ?>" title="Shop All">All Products</a></div>
+
+        <div style="display: flex; justify-content: center; padding-bottom: 16px;">
+            <a class="button" href="<?php echo get_permalink( wc_get_page_id( 'shop' ) ) ?>" title="Shop All">
+                All Products
+            </a>
+        </div>
     </section>
 
     <!-- Newsletter -->

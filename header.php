@@ -21,9 +21,11 @@
     /* Colors */
     --black: #000000;
     --white: #ffffff;
+    --grey: #888888;
 
     /* Border */
     --border-blk: 3px solid var(--black);
+    --border-wht: 3px solid var(--white);
 
     /* Black BG */
     --lg-black: url('<?php echo get_template_directory_uri() ."/assets/blk-texture--lg.jpg" ?>');
@@ -104,6 +106,11 @@
 .nav__row .right svg { 
     width: 25px;
 }
+.nav__row .right .cart-icon a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 .nav__row .hamburger { margin: 0 0 0 20px; }
 .nav__row .cart-icon { display: flex; align-items: center; }
@@ -147,9 +154,11 @@
     top: 0;
     left: 0;
     padding: 20px 0 0 20px;
+    cursor: pointer;
 }
 .nav-overlay .close svg {
     width: 40px;
+    stroke: var(--white) !important;
 }
 
 /* Backgrounds */
@@ -226,9 +235,11 @@
             <!-- Right -->
             <div class="right">
                 <div class="cart-icon">
-                    <?php include( get_template_directory() . '/includes/cart-icon.php' ); ?>
-                    <?php $count = WC()->cart->cart_contents_count; ?>
-                    <p><?php echo $count; ?></p>
+                    <a href="<?php echo wc_get_cart_url(); ?>" title="Cart">
+                        <?php include( get_template_directory() . '/includes/cart-icon.php' ); ?>
+                        <?php $count = WC()->cart->cart_contents_count; ?>
+                        <p><?php echo $count; ?></p>
+                    </a>
                 </div>
                 <div class="hamburger">
                     <span>&nbsp;</span>
@@ -262,11 +273,6 @@
                     )
                 );
                 ?>
-            </div>
-
-            <!-- Social -->
-            <div class="social-icons">
-                <?php get_template_part('template-parts/social-icons'); ?>
             </div>
 
             <!-- Accents -->

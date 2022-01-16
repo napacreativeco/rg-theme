@@ -1,11 +1,11 @@
 <?php
 
 /* PANEL */
-$wp_customize->add_panel( 'dual-square-settings', 
+$wp_customize->add_panel( 'spotlight_product', 
     array(
-        'priority'         => 30,
-        'title'            => __( 'Dual-Square Links', 'aprilrose' ),
-        'description'      => __( 'Modify the Dual Square links', 'aprilrose' ),
+        'priority'         => 50,
+        'title'            => __( 'Spotlight Product', 'rebelgrown' ),
+        'description'      => __( 'Spotlight Product in the shop', 'rebelgrown' ),
     ) 
 );
 

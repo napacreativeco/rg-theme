@@ -68,6 +68,15 @@ get_header(); ?>
         width: 100%;
         min-height: 600px;
     }
+    .paths.long .links h2 {
+        font-size: 0.8rem;
+    }
+    .paths.long .links a {
+        font-size: 0.8rem;
+        text-decoration: none;
+        color: inherit;
+    }
+    
     /* Info */
     .paths.long .info {
         padding: 40px;
@@ -143,14 +152,6 @@ get_header(); ?>
         grid-template-columns: 50% 50%;
         align-items: stretch;
     }
-    .paths.long .culture .links h2 {
-        font-size: 0.8rem;
-    }
-    .paths.long .culture .links a {
-        font-size: 0.8rem;
-        text-decoration: none;
-        color: inherit;
-    }
     
     .paths.long .culture li.post img {
         object-fit: cover;
@@ -212,7 +213,7 @@ get_header(); ?>
                         <a class="button" title="Stickers">Shop Stickers</a>
                     </div>
                     <div class="links">
-                        &nbsp;
+                        <?php echo do_shortcode('[products category="stickers" limit="2" columns="2"]'); ?>
                     </div>
                 </div>
 
@@ -275,4 +276,4 @@ get_header(); ?>
     </div>
 </div>
 
-<?php get_footer( 'shop' ); ?>
+<?php get_footer(); ?>

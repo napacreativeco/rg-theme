@@ -19,6 +19,9 @@ defined( 'ABSPATH' ) || exit;
 
 get_header( 'shop' ); ?>
 
+<?php include( get_template_directory() . '/includes/css--shop-global.php' ); ?>
+<?php include( get_template_directory() . '/includes/css--product-tile.php' ); ?>
+
 <style>
     .category-archive { min-height: 100vh; }
     /* Header */
@@ -27,6 +30,8 @@ get_header( 'shop' ); ?>
         flex-direction: column;
         align-items: center;
         padding: 40px 10px;
+        max-width: 1200px;
+        margin: 0 auto 0 auto;
     }
     .category-archive .header .title {
         text-align: center;
@@ -64,6 +69,9 @@ get_header( 'shop' ); ?>
     .category-archive .header .searcher input[type="search"] {
         border-right: 0;
     }
+    .category-archive .header .searcher input[type="search"]::placeholder {
+        color: var(--black);
+    }
     .category-archive .header .searcher button {
         border-right: 0;
         background: var(--black);
@@ -72,6 +80,10 @@ get_header( 'shop' ); ?>
     .category-archive .header .sorting select {
         border: 3px solid var(--black);
         height: 100%;
+        text-transform: uppercase;
+    }
+    .category-archive .header .sorting option {
+        text-transform: none;
     }
     .category-archive .header .sorting input,
     .category-archive .header .sorting button {
@@ -84,83 +96,6 @@ get_header( 'shop' ); ?>
     .category-archive .header .sorter {
         display: none;
         justify-content: center;      
-    }
-
-    /* Loop */
-    .category-archive .product-loop {
-        padding: 0px 20px;
-    }
-    .category-archive ul.products {
-        list-style: none;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        align-items: stretch;
-        grid-gap: 10px;
-        margin: 0 auto 0 auto;
-        padding: 0 0 100px 0;
-        width: 100%;
-        max-width: 1200px;
-    }
-    .category-archive ul.products li {
-        display: flex;
-        flex-direction: column;
-        background: var(--white);
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        height: 420px;
-        position: relative;
-        margin: 0 auto 40px auto;
-        width: 100%;
-        max-width: 400px;
-    }
-    /* Image */
-    .category-archive ul.products li .image {
-        height: 80%;
-        width: 100%;
-    }
-    /* Info */
-    .category-archive ul.products li .info {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 20%;
-        padding: 0px 40px;
-        margin: 0px 0px 40px 0px;
-    }
-    .category-archive ul.products li .info a {
-        color: inherit;
-        text-decoration: none;
-    }
-    .category-archive ul.products li .info p {
-        margin: 0 0 4px 0;
-        font-size: 1.2rem;
-    }
-    /* Actions */
-    .category-archive .actions {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        padding: 0 20px 0px 20px;
-    }
-    .category-archive .actions svg {
-        width: 25px;
-    }
-    .category-archive .actions .cart-adder {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-    }
-    .category-archive .actions a[title="View cart"] {
-        position: absolute;
-        top: -20px;
-        text-decoration: none;
-        color: inherit;
-        font-size: 0.8rem;
     }
 
     /* 
@@ -300,8 +235,7 @@ do_action( 'woocommerce_before_main_content' ); ?>
 
     </div><!-- /header -->
 
-    <!-- PRODUCT LOOP -->
-    <div class="product-loop">
+
 
         <?php 
         // Check if there are any posts to display
@@ -327,7 +261,7 @@ do_action( 'woocommerce_before_main_content' ); ?>
                 do_action( 'woocommerce_shop_loop' ); ?>
 
                 <!-- Item -->
-                <li class="item">
+                <li class="product">
 
                     <!-- Image -->
                     <div class="image" style="background: url('<?php  echo get_the_post_thumbnail_url(); ?>'); background-size: cover; background-position: center center;">
@@ -349,12 +283,15 @@ do_action( 'woocommerce_before_main_content' ); ?>
                     </div>
 
                     <!-- Actions -->
-                    <div class="actions">
-                        <div class="">
-                            <a href="<?php echo get_post_permalink(); ?>" title="<?php echo the_title(); ?>">
+                    <div class="actions left">
+                        <div class="cart-info">
+                            <a class="button" href="<?php echo get_post_permalink(); ?>" title="<?php echo the_title(); ?>">
                                 <?php include( get_template_directory() . '/includes/info-circle.php' ); ?>
                             </a>
                         </div>
+                    </div>
+
+                    <div class="actions right">
                         <div class="cart-adder">
                             <?php
                             /**
@@ -385,8 +322,12 @@ do_action( 'woocommerce_before_main_content' ); ?>
             <p>Sorry, no posts matched your criteria.</p>
 
         <?php endif; ?> 
-    </div> <!-- /product-loop --> 
  
 </div>
+
+<?php 
+/* Spotlight */
+get_template_part('template-parts/spotlight-product');
+?>
 
 <?php get_footer( 'shop' ); ?>

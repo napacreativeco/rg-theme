@@ -21,6 +21,8 @@ get_header( 'shop' );
 
 global $product; ?>
 
+<?php include( get_template_directory() . '/includes/css--shop-global.php' ); ?>
+
 <style>
 	.single-product__main .row {
 		display: flex;
@@ -103,6 +105,7 @@ global $product; ?>
 	.single-product__main td.label {
 		width: 80px;
 	}
+	/* Variations */
 	.single-product__main select#strain {
 		background: var(--white);
 		color: var(--black);
@@ -110,9 +113,8 @@ global $product; ?>
 		margin-left: 10px;	
 	}
 	a.reset_variations {
-		display: none;
+		display: none !important;
 	}
-	/* Add to Cart */
 	.single-product__main form .woocommerce-variation-add-to-cart {
 		display: flex;
 		flex-direction: row;
@@ -127,6 +129,11 @@ global $product; ?>
 		padding: 4px 10px;
 		margin-left: 10px;
 	}
+	/* Add to Cart */
+	.single-product__main form.cart {
+		display: flex;
+		flex-direction: column;
+	}
 	.single-product__main form.cart input {
 		width: auto;
 		max-width: 50px;
@@ -137,7 +144,15 @@ global $product; ?>
 		border-bottom: 0px;
 		border-left: 3px solid var(--black);
 	}
-	/* Number */
+	
+	.single-product__main form.cart button {
+		background: var(--black);
+		color: var(--white);
+		border: 3px solid var(--white);
+		margin: 0 0 0 40px;
+		padding: 10px 20px;
+	}
+	/* Quantity */
 	.single-product__main input::-webkit-outer-spin-button,
 	.single-product__main input::-webkit-inner-spin-button {
 		-webkit-appearance: none;
@@ -163,6 +178,17 @@ global $product; ?>
 	}
 	.single-product .lower .additional-information {
 		margin-top: 80px;
+	}
+	/* Lightbox */
+	.lightbox {
+		display: none;
+		background: rgba(0, 0, 0, 0.2);
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 999;
 	}
 
 	/* 
@@ -295,22 +321,31 @@ if ( post_password_required() ) {
 			<?php the_content(); ?>
 		</div>
 
-		<div class="additional-information">
-			<?php
-			$heading = apply_filters( 'woocommerce_product_additional_information_heading', __( 'Additional information', 'woocommerce' ) );
-			?>
+		<?php
+		if( $product->has_attributes() || $product->has_dimensions() || $product->has_weight() ) { ?>
 
-			<?php if ( $heading ) : ?>
+			<div class="additional-information">
+				<?php
+				$heading = apply_filters( 'woocommerce_product_additional_information_heading', __( 'Additional information', 'woocommerce' ) );
+				?>
 				<h2><?php echo esc_html( $heading ); ?></h2>
-			<?php endif; ?>
+				<?php do_action( 'woocommerce_product_additional_information', $product ); ?>
+			</div><?php
 
-			<?php do_action( 'woocommerce_product_additional_information', $product ); ?>
-		</div>
+		} ?>
 
 	</div> <!-- /lower -->
 
 
 	<?php do_action( 'woocommerce_after_single_product' ); ?>
+
+	<!-- Lightbox -->
+	<div class="lightbox">
+		<h2>Your image</h2>
+		<?php include( get_template_directory() . '/includes/close.php' ); ?>
+		<div class="lightbox-image">
+		</div>
+	</div>
 
 </div><!-- /single-product -->
 

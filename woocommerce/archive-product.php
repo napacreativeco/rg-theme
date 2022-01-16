@@ -19,14 +19,20 @@ defined( 'ABSPATH' ) || exit;
 
 get_header( 'shop' ); ?>
 
+<?php include( get_template_directory() . '/includes/css--shop-global.php' ); ?>
+<?php include( get_template_directory() . '/includes/css--product-tile.php' ); ?>
+
 <style>
     .product-archive { min-height: 100vh; }
+
     /* Header */
     .product-archive .header {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 40px 10px;
+        max-width: 1200px;
+        margin: 0 auto 0 auto;
     }
     .product-archive .header .title {
         text-align: center;
@@ -64,6 +70,9 @@ get_header( 'shop' ); ?>
     .product-archive .header .searcher input[type="search"] {
         border-right: 0;
     }
+    .product-archive .header .searcher input[type="search"]::placeholder {
+        color: var(--black);
+    }
     .product-archive .header .searcher button {
         border-right: 0;
         background: var(--black);
@@ -72,6 +81,10 @@ get_header( 'shop' ); ?>
     .product-archive .header .sorting select {
         border: 3px solid var(--black);
         height: 100%;
+        text-transform: uppercase;
+    }
+    .product-archive .header .sorting option {
+        text-transform: none;
     }
     .product-archive .header .sorting input,
     .product-archive .header .sorting button {
@@ -85,81 +98,8 @@ get_header( 'shop' ); ?>
         display: none;
         justify-content: center;      
     }
-    /* Loop */
-    .product-archive .product-loop {
-        padding: 0px 20px;
-    }
-    .product-archive ul.products {
-        list-style: none;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        align-items: stretch;
-        grid-gap: 10px;
-        margin: 0 auto 100px auto;
-        padding: 0;
-        width: 100%;
-        max-width: 1200px;
-    }
-    .product-archive ul.products li {
-        display: flex;
-        flex-direction: column;
-        background: var(--white);
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        height: 420px;
-        position: relative;
-        margin: 0 auto 40px auto;
-        width: 100%;
-        max-width: 400px;
-    }
-    /* Image */
-    .product-archive ul.products li .image {
-        height: 80%;
-        width: 100%;
-    }
-    /* Info */
-    .product-archive ul.products li .info {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 20%;
-        padding: 0px 40px;
-    }
-    .product-archive ul.products li .info a {
-        color: inherit;
-        text-decoration: none;
-    }
-    .product-archive ul.products li .info p {
-        margin: 0 0 4px 0;
-        font-size: 1.2rem;
-    }
-    /* Actions */
-    .product-archive .actions {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        padding: 0 20px 0px 20px;
-    }
-    .product-archive .actions svg {
-        width: 25px;
-    }
-    .product-archive .actions .cart-adder {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-    }
-    .product-archive .actions a[title="View cart"] {
-        position: absolute;
-        top: -20px;
-        text-decoration: none;
-        color: inherit;
-        font-size: 0.8rem;
-    }
+
+  
 
     /* 
     =================================
@@ -172,21 +112,11 @@ get_header( 'shop' ); ?>
     }
 
     @media (max-width: 991.98px) {
-        /* Shop Loop */
-        .product-archive ul.products {
-            grid-template-columns: 1fr 1fr;
-        }
+
     }
 
     @media (max-width: 767.98px) {
 
-        /* Shop Loop */
-        .product-archive ul.products {
-            grid-template-columns: 1fr;
-        }
-        .product-archive .products li {
-            width: 100%;
-        }
         /* Sorting */
         .product-archive .header .sorting {
             display: grid;
@@ -277,7 +207,7 @@ do_action( 'woocommerce_before_main_content' ); ?>
 
             <?php
             $args = array( 'type' => 'product', 'taxonomy' => 'product_cat' ); 
-            $categories = get_categories( $args );
+            $categories = get_categories( $args ); 
             ?>
             <select id="dynamic_select">
                 <?php foreach ($categories as $cat) { ?>
@@ -300,24 +230,22 @@ do_action( 'woocommerce_before_main_content' ); ?>
 
     </div><!-- /header -->
 
-    <!-- PRODUCT LOOP -->
-    <div class="product-loop">
-
-        <?php
-        /**
-         * Hook: woocommerce_before_shop_loop.
-         *
-         * @hooked woocommerce_output_all_notices - 10
-         * @hooked woocommerce_result_count - 20
-         * @hooked woocommerce_catalog_ordering - 30
-         */
-        do_action( 'woocommerce_before_shop_loop' );
-        ?>
+    <?php
+    /**
+     * Hook: woocommerce_before_shop_loop.
+     *
+     * @hooked woocommerce_output_all_notices - 10
+     * @hooked woocommerce_result_count - 20
+     * @hooked woocommerce_catalog_ordering - 30
+     */
+    do_action( 'woocommerce_before_shop_loop' );
+    ?>
 
         <?php
         $args = array( 
             'post_type'    => 'product',
-            'meta_query'   => '_price'
+            'meta_query'   => '_price',
+            'category__not_in' => '23'
         );
         $loop = new WP_Query( $args );
         ?>
@@ -327,7 +255,7 @@ do_action( 'woocommerce_before_main_content' ); ?>
         <?php
         while ( $loop->have_posts() ) : $loop->the_post(); 
         ?>
-
+            
             <?php the_post(); ?>
             
             <?php
@@ -335,7 +263,7 @@ do_action( 'woocommerce_before_main_content' ); ?>
             do_action( 'woocommerce_shop_loop' ); ?>
 
             <!-- Item -->
-            <li class="item">
+            <li class="product">
 
                 <!-- Image -->
                 <div class="image" style="background: url('<?php  echo get_the_post_thumbnail_url(); ?>'); background-size: cover; background-position: center center;">
@@ -357,12 +285,15 @@ do_action( 'woocommerce_before_main_content' ); ?>
                 </div>
 
                 <!-- Actions -->
-                <div class="actions">
-                    <div class="">
-                        <a href="<?php echo get_post_permalink(); ?>" title="<?php echo the_title(); ?>">
+                <div class="actions left">
+                    <div class="cart-info">
+                        <a class="button" href="<?php echo get_post_permalink(); ?>" title="<?php echo the_title(); ?>">
                             <?php include( get_template_directory() . '/includes/info-circle.php' ); ?>
                         </a>
                     </div>
+                </div>
+
+                <div class="actions right">
                     <div class="cart-adder">
                         <?php
                         /**
@@ -382,17 +313,15 @@ do_action( 'woocommerce_before_main_content' ); ?>
         endwhile; wp_reset_query();
         ?>
         
-        <?php woocommerce_product_loop_end();
+        <?php woocommerce_product_loop_end(); ?>
 
-        /**
-        * Hook: woocommerce_after_shop_loop
-        * @hooked woocommerce_pagination - 10
-        */
-        do_action( 'woocommerce_after_shop_loop' );
-        ?>
-
-    </div> <!-- /product-loop -->
-
+    <?php
+    /**
+    * Hook: woocommerce_after_shop_loop
+    * @hooked woocommerce_pagination - 10
+    */
+    do_action( 'woocommerce_after_shop_loop' );
+    ?>
 
 </div>
 
