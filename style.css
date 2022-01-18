@@ -24,9 +24,6 @@ body.public {
 }
 
 * { box-sizing: border-box; }
-figure, select, option { margin: 0; }
-a.no-click { cursor: default; }
-
 
 
 @font-face {
@@ -104,12 +101,23 @@ a {
     font-family: 'Atlas';
     font-weight: normal;
 }
+a.button {
+    text-decoration: none;
+}
+a.no-click {
+    cursor: default;
+}
 em {
     font-family: 'Atlas';
     font-weight: normal;
     font-style: italic;
 }
-mark { background: transparent; }
+figure, select, option { 
+    margin: 0;
+}
+mark {
+    background: transparent;
+}
 table {
     border-collapse: collapse;
 }
@@ -203,9 +211,9 @@ table {
     text-decoration: none;
     color: var(--white);
 }
-.nav-overlay .menu span {
+.nav-overlay .menu em {
     font-size: 0.8rem;
-    font-style: italic;
+    text-transform: uppercase;
     margin: 0 0 0 0;
 }
 /* Nav Overlay: Social Icons */
